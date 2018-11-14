@@ -11,7 +11,7 @@ var client = mqtt.connect(URL, options);
 
 client.on('connect', () => {
   console.log("Connected");
-  client.subscribe(TOPIC_NAME);
+  client.subscribe(TOPIC_NAME, {}, (err, granted) => console.log("Hello, world"));
 });
 
 client.on('message', (topic, message) => {
