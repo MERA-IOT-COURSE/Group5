@@ -28,3 +28,5 @@ client.on('message', (topic, message) => {
 });
 
 client.on('error', error => console.log(error));
+client.on('end', () => console.log('Ended'));
+client.on('close', () => console.log('Closed'));
