@@ -27,4 +27,4 @@ client.on('message', (topic, message) => {
   //}
 });
 
-client.on('error', error => console.log(error);
+client.on('error', error => console.log(error));
