@@ -1,4 +1,4 @@
-var mqtt=require('mqtt');
+var mqtt = require('mqtt');
 
 let URL = "mqtt://10.42.0.10:1883";
 let TOPIC_NAME = "ivan;"
@@ -26,3 +26,5 @@ client.on('message', (topic, message) => {
     console.log("Publish handling, message: " + message);
   //}
 });
+
+client.on('error', error => console.log(error);
