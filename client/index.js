@@ -10,6 +10,7 @@ let options = {
 var client = mqtt.connect(URL, options);
 
 client.on('connect', () => {
+  console.log("Connected");
   client.subscribe(TOPIC_NAME);
 });
 
