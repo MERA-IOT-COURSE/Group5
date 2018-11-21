@@ -9,8 +9,14 @@ let pin = new gpio(17, 'out');
 
 app.get('/', (req, res) => res.sendFile('button.html', {root: __dirname}));
 
-app.get('/on', (req, res) => pin.write(gpio.HIGH, () => console.log("On")));
+app.get('/on', (req, res) => {
+  pin.write(gpio.HIGH, () => console.log("On"));
+  res.end();
+});
 
-app.get('/off', (req, res) => pin.write(gpio.LOW, () => console.log("Off")));
+app.get('/off', (req, res) => {
+  pin.write(gpio.LOW, () => console.log("Off"));
+  res.end();
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
