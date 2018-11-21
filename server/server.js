@@ -7,7 +7,7 @@ const app = express();
 
 let pin = new gpio(17, 'out');
 
-app.get('/', (req, res) => res.sendFile('button.html'));
+app.get('/', (req, res) => res.sendFile('button.html', {root: __dirname}));
 
 app.get('/on', (req, res) => pin.write(gpio.HIGH, () => console.log("On")));
 
