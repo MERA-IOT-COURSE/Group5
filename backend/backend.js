@@ -1,21 +1,24 @@
 const express = require("express");
 const parser = require('body-parser');
-const gpio = require("onoff").Gpio;
+const mqtt = require('mqtt');
+const shared = require('../common.js');
 
 const port = 3000;
 const app = express();
 
-let pin = new gpio(17, 'out');
+const URL = "mqtt://10.42.0.10:1883";
+var mqttClient = mqtt.connect(URL, {});
 
 app.get('/', (req, res) => res.sendFile('button.html', {root: __dirname}));
 
 app.get('/on', (req, res) => {
-  pin.write(gpio.HIGH, () => console.log("On"));
+  //todo: send topic
+  client.publish(shared.TOPIC.DEV_HW_TOPIC, {});
   res.end();
 });
 
 app.get('/off', (req, res) => {
-  pin.write(gpio.LOW, () => console.log("Off"));
+client.publish(shared.TOPIC.DEV_HW_TOPIC, {});
   res.end();
 });
 
