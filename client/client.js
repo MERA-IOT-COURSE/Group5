@@ -1,11 +1,30 @@
-const mqtt = require('mqtt');   
+const mqtt = require('mqtt');
 const shared = require('../common.js');
-//const gpio = require("onoff").Gpio;
+const gpio = require("onoff").Gpio;
 
 let stringify = JSON.stringify;
-//let pin = new gpio(17, 'out');
-
 var client = mqtt.connect(shared.BROKER_URL, {});
+
+function Led(gpioIndex) {
+  this.pin = new gpio(gpioIndex, 'out');
+
+  this.on = function() {
+    this.pin.write(gpio.HIGH, () => console.log("Led " + gpioIndex + " on"));
+  }
+
+  this.off = function() {
+    this.pin.write(gpio.LOW, () => console.log("Led " + gpioIndex + " off");
+  }
+}
+
+let LEDS = {
+  led17: new Led(17)
+};
+
+let sensorActionsMap = {
+  'led_sensorled.on': led17.on(),
+  'led_sensorled.off': led17.off()
+};
 
 const REGISTER_OBJECT = {
   "version": shared.PROTOCOL_VERSION,
@@ -28,17 +47,17 @@ client.on('connect', () => {
 );
 
 client.on('message', (topic, message) => {
-  // how to parse message and detect action id?
-  //pin.write(gpio.HIGH, () => console.log("On"));
-  //pin.write(gpio.LOW, () => console.log("Off"));
   console.log("Message received: " + message);
+  //sensorActionsMap[message.sensorId + message.actionId].call();
 });
 
 client.on('error', error => console.log(error));
 client.on('end', () => console.log('Ended'));
 client.on('close', () => console.log('Closed'));
 
-function getHardwareId() {
+
+// todo: use
+/*function getHardwareId() {
       const cpuinfoPath = "/proc/cpuinfo"
 
       var cpuinfo = fs.readFileSync(cpuinfoPath, 'utf-8')
@@ -54,4 +73,4 @@ function getHardwareId() {
       }
 
       return hardwareId
-}
+}*/

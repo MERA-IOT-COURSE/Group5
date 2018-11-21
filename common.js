@@ -14,7 +14,7 @@ module.exports = {
   HW_ID: HW_ID,
   PROTOCOL_VERSION: 1.0,
   CLIENT_NAME: 'Group 5',
-  LED_SENSOR_ID: 'led_sensor',
+  LED_SENSOR_ID: 'led_sensor', //todo array of sensors
   LED_TYPE: 'led_type',
   LED_ACTIONS: ['led.on', 'led.off']
 };

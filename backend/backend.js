@@ -12,13 +12,14 @@ var mqttClient = mqtt.connect(URL, {});
 app.get('/', (req, res) => res.sendFile('button.html', {root: __dirname}));
 
 app.get('/on', (req, res) => {
-  //todo: send topic
-  client.publish(shared.TOPIC.DEV_HW_TOPIC, {});
+  let msg = {sensorId:shared.LED_SENSOR_ID, actionId: shared.LED_ACTIONS[0]};
+  client.publish(shared.TOPIC.DEV_HW_TOPIC, msg);
   res.end();
 });
 
 app.get('/off', (req, res) => {
-client.publish(shared.TOPIC.DEV_HW_TOPIC, {});
+  let msg = {sensorId:shared.LED_SENSOR_ID, actionId: shared.LED_ACTIONS[1]};
+  client.publish(shared.TOPIC.DEV_HW_TOPIC, msg);
   res.end();
 });
 
