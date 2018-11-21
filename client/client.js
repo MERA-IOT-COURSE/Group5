@@ -22,8 +22,8 @@ let LEDS = {
 };
 
 let sensorActionsMap = {
-  'led_sensorled.on': led17.on(),
-  'led_sensorled.off': led17.off()
+  'led_sensorled.on': LEDS.led17.on(),
+  'led_sensorled.off': LEDS.led17.off()
 };
 
 const REGISTER_OBJECT = {
