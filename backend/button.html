@@ -8,13 +8,14 @@
      <script type="text/javascript">
        var sendOnRequest = function () {
          let request = new XMLHttpRequest();
-         request.open("GET", "http://10.42.0.12:3000/on");
+         <!--todo: place url into constant-->
+         request.open("GET", "http://127.0.0.1:3000/on");
          request.send();
       };
 
       var sendOffRequest = function () {
         let request = new XMLHttpRequest();
-        request.open("GET", "http://10.42.0.12:3000/off");
+        request.open("GET", "http://127.0.0.1:3000/off");
         request.send();
       };
      </script>

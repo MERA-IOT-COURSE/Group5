@@ -39,8 +39,6 @@ const REGISTER_OBJECT = {
 };
 
 client.on('connect', () => {
-    // todo: replace with INIT_HW_TOPIC
-    //client.subscribe(TOPIC.INIT_MASTER_TOPIC);
     client.publish(shared.TOPIC.INIT_MASTER_TOPIC, stringify(REGISTER_OBJECT));
     client.subscribe(shared.TOPIC.DEV_HW_TOPIC);
   }
@@ -48,7 +46,9 @@ client.on('connect', () => {
 
 client.on('message', (topic, message) => {
   console.log("Message received: " + message);
-  //sensorActionsMap[message.sensorId + message.actionId].call();
+  let jsonMessage = JSON.parse(message);
+  sensorActionsMap[message.sensorId + message.actionId].call();
+  //todo response on BE_HW_TOPIC
 });
 
 client.on('error', error => console.log(error));
