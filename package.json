@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MERA-IOT-COURSE/Group5#readme",
   "dependencies": {
-    "mqtt": "^2.18.8"
+    "mqtt": "^2.18.8",
+    "node-gyp": "^3.8.0"
   }
 }
