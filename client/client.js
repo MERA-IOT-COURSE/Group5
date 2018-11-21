@@ -13,7 +13,7 @@ function Led(gpioIndex) {
   }
 
   this.off = function() {
-    this.pin.write(gpio.LOW, () => console.log("Led " + gpioIndex + " off");
+    this.pin.write(gpio.LOW, () => console.log("Led " + gpioIndex + " off"));
   }
 }
 
