@@ -6,11 +6,11 @@ const port = 3000;
 const app = express();
 
 let pin = new gpio(17, 'out');
-pin.write(gpio.HIGH, () => console.log("Happy NY!"));
 
-app.get('/testendpoint', (req, res) => {
-  res.send("Hello, world!");
-  return;
-});
+application.get('/', (req, res) => res.sendFile('button.html'));
+
+app.get('/on', (req, res) => pin.write(gpio.HIGH, () => console.log("On")));
+
+app.get('/off', (req, res) => pin.write(gpio.LOW, () => console.log("Off")));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

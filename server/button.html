@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+   <HEAD>
+      <TITLE>ON/OFF</TITLE>
+   </HEAD>
+   <BODY>
+     <script type="text/javascript">
+       var sendOnRequest = function () {
+         let request = new XMLHttpRequest();
+         request.open("GET", "http://10.42.0.12:3000/on");
+         request.send();
+      };
+
+      var sendOffRequest = function () {
+        let request = new XMLHttpRequest();
+        request.open("GET", "http://10.42.0.12:3000/off");
+        request.send();
+      };
+     </script>
+
+     <input type="submit" value="On" onclick="sendOnRequest()">
+     <input type="submit" value="Off" onclick="sendOnRequest()">
+   </BODY>
+</HTML>
