@@ -47,6 +47,7 @@ client.on('connect', () => {
 client.on('message', (topic, message) => {
   console.log("Message received: " + message);
   let jsonMessage = JSON.parse(message);
+  console.log(sensorActionsMap);
   sensorActionsMap[message.sensorId + message.actionId].call();
   //todo response on BE_HW_TOPIC
 });
