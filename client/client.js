@@ -10,7 +10,7 @@ function Led(gpioIndex) {
 
   this.on = function() {
     this.pin.write(gpio.HIGH, () => console.log("Led " + gpioIndex + " on"));
-  }
+  };
 
   this.off = function() {
     this.pin.write(gpio.LOW, () => console.log("Led " + gpioIndex + " off"));
@@ -22,8 +22,8 @@ let LEDS = {
 };
 
 let sensorActionsMap = {
-  'led_sensorled.on': LEDS.led17.on(),
-  'led_sensorled.off': LEDS.led17.off()
+  'led_sensorled.on': LEDS.led17.on,
+  'led_sensorled.off': LEDS.led17.off
 };
 
 const REGISTER_OBJECT = {
