@@ -1,13 +1,16 @@
 const express = require("express");
 const mqtt = require('mqtt');
-const shared = require('../common.js');
+const shared = require('../common/constants.js');
 
 const port = 3000;
 const app = express();
-var mqttClient = mqtt.connect(shared.BROKER_URL, {});
+const mqttClient = mqtt.connect(shared.BROKER_URL, {});
 
+// todo: implement those functions
 let sensorCallbackMap = {
-    'temp_hum_sensor': setTempAndHum
+    'temp_hum_sensor': setTempAndHum,
+    'temp_sensor': undefined,
+    'hum_sensor': undefined
 };
 
 mqttClient.on("message", (topic, message) => {
@@ -26,6 +29,7 @@ mqttClient.on("message", (topic, message) => {
     sensorCallbackMap[jsonMessage.sensorId].call(this, jsonMessage.value);
 });
 
+// todo: divide
 function setTempAndHum(tempAndHum) {
     document.getElementById('tempAndHumOut').innerText = tempAndHum;
 }

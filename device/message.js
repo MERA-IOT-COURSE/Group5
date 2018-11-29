@@ -1,4 +1,4 @@
-const shared = require('../common.js');
+const shared = require('../common/constants.js');
 
 const REGISTER_OBJECT = {
     "version": shared.PROTOCOL_VERSION,
@@ -7,14 +7,18 @@ const REGISTER_OBJECT = {
     "sensors": [
         {
             id: shared.SENSOR_IDS.LED,
-            type: shared.SENSOR_TYPE,
+            type: shared.SENSOR_TYPE.LED,
             actions: shared.ACTIONS.LED
         },
-
         {
-            id: shared.SENSOR_IDS.DHT,
-            type: shared.SENSOR_TYPE,
-            actions: shared.ACTIONS.DHT
+            id: shared.SENSOR_IDS.TEMP,
+            type: shared.SENSOR_TYPE.TEMPERATURE,
+            actions: shared.ACTIONS.DHT.TEMP
+        },
+        {
+            id: shared.SENSOR_IDS.HUM,
+            type: shared.SENSOR_TYPE.HUMIDITY,
+            actions: shared.ACTIONS.DHT.HUM
         }
     ],
     "actions": {}

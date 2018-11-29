@@ -1,10 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
         "http://www.w3.org/TR/html4/strict.dtd">
-<HTML>
-<HEAD>
-    <TITLE>ON/OFF</TITLE>
-</HEAD>
-<BODY>
+<html>
+<head></head>
+<body>
 <script type="text/javascript">
     let sendGet = function (url) {
         let request = new XMLHttpRequest();
@@ -12,17 +10,9 @@
         request.send();
     };
 
-    var sendOnRequest = function () {
-        sendGet("http://127.0.0.1:3000/on");
-    };
-
-    var sendOffRequest = function () {
-        sendGet("http://127.0.0.1:3000/off");
-    };
-
-    var sendTempAndHumRequest = function () {
-        sendGet("http://127.0.0.1:3000/temperatureAndHumidity");
-    }
+    var sendOnRequest = () => sendGet("http://127.0.0.1:3000/on");
+    var sendOffRequest = () => sendGet("http://127.0.0.1:3000/off");
+    var sendTempAndHumRequest = () => sendGet("http://127.0.0.1:3000/temperatureAndHumidity");
 </script>
 
 <div>
@@ -32,9 +22,10 @@
 
 <div>
     <p>
+        <!--TODO: divide-->
         <span id='tempAndHumOut'></span>
         <input type="submit" value='Refresh' onclick="sendTempAndHumRequest()">
     </p>
 </div>
-</BODY>
-</HTML>
+</body>
+</html>
