@@ -12,7 +12,8 @@
 
     var sendOnRequest = () => sendGet("http://127.0.0.1:3000/on");
     var sendOffRequest = () => sendGet("http://127.0.0.1:3000/off");
-    var sendTempAndHumRequest = () => sendGet("http://127.0.0.1:3000/temperatureAndHumidity");
+    var sendTemperatureRequest = () => sendGet("http://127.0.0.1:3000/temperature");
+    var sendHumidityRequest = () => sendGet("http://127.0.0.1:3000/humidity");
 </script>
 
 <div>
@@ -21,10 +22,15 @@
 </div>
 
 <div>
+    <!--todo: add labels-->
     <p>
-        <!--TODO: divide-->
-        <span id='tempAndHumOut'></span>
-        <input type="submit" value='Refresh' onclick="sendTempAndHumRequest()">
+        <span id='temperature'></span>
+        <input type="submit" value='Refresh' onclick="sendTemperatureRequest()">
+    </p>
+
+    <p>
+        <span id='humidity'></span>
+        <input type="submit" value='Refresh' onclick="sendHumidityRequest()">
     </p>
 </div>
 </body>

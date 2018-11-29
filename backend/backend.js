@@ -6,12 +6,32 @@ const port = 3000;
 const app = express();
 const mqttClient = mqtt.connect(shared.BROKER_URL, {});
 
-// todo: implement those functions
 let sensorCallbackMap = {
-    'temp_hum_sensor': setTempAndHum,
-    'temp_sensor': undefined,
-    'hum_sensor': undefined
+    'temp_sensor': setTemperature,
+    'hum_sensor': setHumidity
 };
+
+/*FUNCTIONS*/
+function publish(sensorId, actionId, res) {
+    mqttClient.publish(
+        shared.TOPIC.DEV_HW_TOPIC,
+        JSON.stringify({sensorId: sensorId, actionId: actionId})
+    );
+    res.end();
+}
+
+function setTemperature(temperature) {
+    setElementInnerTest('temperature', temperature);
+}
+
+function setHumidity(humidity) {
+    setElementInnerTest('humidity', humidity);
+}
+
+function setElementInnerTest(elementId, value) {
+    document.getElementById(elementId).innerText = value;
+}
+/*FUNCTIONS*/
 
 mqttClient.on("message", (topic, message) => {
     console.log("Message received: " + message);
@@ -29,23 +49,10 @@ mqttClient.on("message", (topic, message) => {
     sensorCallbackMap[jsonMessage.sensorId].call(this, jsonMessage.value);
 });
 
-// todo: divide
-function setTempAndHum(tempAndHum) {
-    document.getElementById('tempAndHumOut').innerText = tempAndHum;
-}
-
 /*ROUTES*/
 app.get('/', (req, res) => res.sendFile('index.html', {root: __dirname}));
-app.get('/on', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED[0], res));
-app.get('/off', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED[1], res));
-app.get('/temperatureAndHumidity', (req, res) => publish(shared.SENSOR_IDS.DHT, shared.ACTIONS.DHT[0], res));
-
-function publish(sensorId, actionId, res) {
-    mqttClient.publish(
-        shared.TOPIC.DEV_HW_TOPIC,
-        JSON.stringify({sensorId: sensorId, actionId: actionId})
-    );
-    res.end();
-}
-
+app.get('/on', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED.ON, res));
+app.get('/off', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED.OFF, res));
+app.get('/temperature', (req, res) => publish(shared.SENSOR_IDS.TEMP, shared.ACTIONS.DHT.TEMP, res));
+app.get('/humidity', (req, res) => publish(shared.SENSOR_IDS.HUM, shared.ACTIONS.DHT.HUM, res));
 app.listen(port, () => console.log(`App is listening on port ${port}!`));
