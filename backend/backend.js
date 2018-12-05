@@ -13,10 +13,18 @@ let sensorCallbackMap = {
 
 /*FUNCTIONS*/
 function publish(sensorId, actionId, res) {
-    mqttClient.publish(
-        shared.TOPIC.DEV_HW_TOPIC,
-        JSON.stringify({sensorId: sensorId, actionId: actionId})
-    );
+    //REQ_SENSOR_ACTION message
+    let request = JSON.stringify({
+        mid: shared.MESSAGES.REQ_SENSOR_ACTION,
+        data: {
+            id: actionId,
+            sensorId: sensorId
+        }
+    });
+
+    console.log("Send request: " + request);
+
+    mqttClient.publish(shared.TOPIC.DEV_HW_TOPIC, request);
     res.end();
 }
 
@@ -31,6 +39,7 @@ function setHumidity(humidity) {
 function setElementInnerTest(elementId, value) {
     document.getElementById(elementId).innerText = value;
 }
+
 /*FUNCTIONS*/
 
 mqttClient.on("message", (topic, message) => {
@@ -40,13 +49,14 @@ mqttClient.on("message", (topic, message) => {
         return
     }
 
+    //RESP_SENSOR_ACTION
     let jsonMessage = JSON.parse(message);
 
-    if (jsonMessage.sensorId === shared.SENSOR_IDS.LED) {
+    if (jsonMessage.data.sensorId === shared.SENSOR_IDS.LED) {
         return
     }
 
-    sensorCallbackMap[jsonMessage.sensorId].call(this, jsonMessage.value);
+    sensorCallbackMap[jsonMessage.id].call(this, jsonMessage.value);
 });
 
 /*ROUTES*/

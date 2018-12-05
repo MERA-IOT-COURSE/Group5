@@ -7,6 +7,7 @@ function readTemperature() {
             return
         }
 
+        console.log("DEBUG temperature: " + temperature);
         return temperature.toFixed(1) + '°C';
     });
 }

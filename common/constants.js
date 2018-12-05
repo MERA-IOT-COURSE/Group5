@@ -31,7 +31,16 @@ module.exports = {
         },
         DHT: {
             TEMP: {id: 3, name: 'temperature'},
-            HUM: {id: 4, name: 'humidty'}
+            HUM: {id: 4, name: 'humidity'}
         },
+    },
+    MESSAGES: {
+        REGISTER: "REGISTER",
+        REGISTER_RESP: "REGISTER_RESP",
+        SENSOR_DATA: "SENSOR_DATA",
+        REQ_DEVICE_ACTION: "REQ_DEVICE_ACTION",
+        REQ_SENSOR_ACTION: "REQ_SENSOR_ACTION",
+        RESP_DEVICE_ACTION: "RESP_DEVICE_ACTION",
+        RESP_SENSOR_ACTION: "RESP_SENSOR_ACTION"
     }
 };
