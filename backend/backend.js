@@ -1,48 +1,41 @@
 const express = require("express");
 const mqtt = require('mqtt');
 const shared = require('../common/constants.js');
+const cors = require('cors');
 
 const port = 3000;
 const app = express();
-const mqttClient = mqtt.connect(shared.BROKER_URL, {});
+app.use(cors());
 
-let sensorCallbackMap = {
-    'temp_sensor': setTemperature,
-    'hum_sensor': setHumidity
-};
+const backend = mqtt.connect("mqtt://localhost:1883", {});
+//const backend = mqtt.connect(shared.BROKER_URL, {});
+
+let requestIdSequence = 0;
+let requestResponseMap = new Map();
 
 /*FUNCTIONS*/
 function publish(sensorId, actionId, res) {
+    let requestId = ++requestIdSequence;
     //REQ_SENSOR_ACTION message
     let request = JSON.stringify({
         mid: shared.MESSAGES.REQ_SENSOR_ACTION,
         data: {
             id: actionId,
-            sensorId: sensorId
+            sensorId: sensorId,
+            requestId: requestId
         }
     });
 
     console.log("Send request: " + request);
-
-    mqttClient.publish(shared.TOPIC.DEV_HW_TOPIC, request);
-    res.end();
-}
-
-function setTemperature(temperature) {
-    setElementInnerTest('temperature', temperature);
-}
-
-function setHumidity(humidity) {
-    setElementInnerTest('humidity', humidity);
-}
-
-function setElementInnerTest(elementId, value) {
-    document.getElementById(elementId).innerText = value;
+    requestResponseMap.set(requestId, res);
+    backend.publish(shared.TOPIC.DEV_HW_TOPIC, request);
 }
 
 /*FUNCTIONS*/
 
-mqttClient.on("message", (topic, message) => {
+backend.on('connect', () => backend.subscribe(shared.TOPIC.BE_HW_TOPIC));
+
+backend.on('message', (topic, message) => {
     console.log("Message received: " + message);
 
     if (topic !== shared.TOPIC.BE_HW_TOPIC) {
@@ -50,13 +43,17 @@ mqttClient.on("message", (topic, message) => {
     }
 
     //RESP_SENSOR_ACTION
-    let jsonMessage = JSON.parse(message);
+    let payload = JSON.parse(message).data;
 
-    if (jsonMessage.data.sensorId === shared.SENSOR_IDS.LED) {
+    if (payload.sensorId === shared.SENSOR_IDS.LED) {
         return
     }
 
-    sensorCallbackMap[jsonMessage.id].call(this, jsonMessage.value);
+    let requestId = payload.requestId;
+    let response = requestResponseMap.get(requestId);
+    requestResponseMap.delete(requestId);
+    response.send(payload.data.value);
+    response.end();
 });
 
 /*ROUTES*/

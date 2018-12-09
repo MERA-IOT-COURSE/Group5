@@ -1,25 +1,24 @@
 const dht = require('node-dht-sensor');
 
-function readTemperature() {
-    dht.read(11, 18, function (err, temperature, humidity) {
+function readTemperature(callback) {
+    dht.read(11, 18, function (err, temperature) {
         if (err) {
             console.log(err);
             return
         }
 
-        console.log("DEBUG temperature: " + temperature);
-        return temperature.toFixed(1) + '°C';
+        callback(temperature + "°C");
     });
 }
 
-function readHumidity() {
+function readHumidity(callback) {
     dht.read(11, 18, function (err, temperature, humidity) {
         if (err) {
             console.log(err);
             return
         }
 
-        return humidity.toFixed(1) + '%';
+        callback.call(this, humidity + "%");
     });
 }
 
