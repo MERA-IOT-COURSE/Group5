@@ -1,25 +1,21 @@
 const mqtt = require('mqtt');
 const shared = require('../common/constants.js');
 const REGISTER_OBJECT = require('./message.js').REGISTER_OBJECT;
+const respSensorAction = require('./message.js').respSensorAction;
 const Led = require('./Led.js').Led;
-const dht = require('./dht_utils.js');
+const DHT = require('./DHT.js');
 const utils = require('./utils.js');
 
-const device = mqtt.connect("mqtt://192.168.1.1:1883", {});
-//const device = mqtt.connect(shared.BROKER_URL, {});
+const device = mqtt.connect(shared.BROKER_URL, {});
 
-let LEDS = {
-    led17: new Led(17)
-};
+let led17 = new Led(17);
+let dht18 = new DHT(18);
 
-// every callback takes a function as an input
-// this function will be called after calculations are done
-// this function should take value as a parameter (such as humidity)
 let actionCallbackMap = {
-    1: LEDS.led17.on,
-    2: LEDS.led17.off,
-    3: dht.readTemperature,
-    4: dht.readHumidity
+    1: led17.on,
+    2: led17.off,
+    3: dht18.readTemperature,
+    4: dht18.readHumidity
 };
 
 device.on('connect', () => {
@@ -37,24 +33,12 @@ device.on('message', (topic, message) => {
 
     let payload = JSON.parse(message).data;
 
-    //todo: refactor
+    //todo: replace with promises
     actionCallbackMap[payload.id.id]
         .call(this, (value => {
                 utils.now(timestamp => {
-                    /*RESP_SENSOR_ACTION message*/
-                    let response = JSON.stringify({
-                            mid: shared.MESSAGES.RESP_SENSOR_ACTION,
-                            data: {
-                                id: payload.id,
-                                sensor_id: payload.sensorId,
-                                status: 'OK',
-                                data: {
-                                    value: value,
-                                    tx: timestamp
-                                },
-                                requestId: payload.requestId
-                            }
-                        }
+                    let response = JSON.stringify(
+                        respSensorAction(payload.id, payload.sensorId, value, timestamp, payload.requestId)
                     );
 
                     console.log("Send response: " + response);

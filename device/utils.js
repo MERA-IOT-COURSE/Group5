@@ -2,12 +2,7 @@ const fs = require('fs');
 const exec = require('child_process').exec;
 
 function getHardwareId() {
-    const cpuinfoPath = "/proc/cpuinfo";
-
-    var cpuinfo = fs.readFileSync(cpuinfoPath, 'utf-8');
-    var hardwareIdRegexp = /Serial\s*:\s*(\w+)/g;
-    var match = hardwareIdRegexp.exec(cpuinfo);
-
+    let match = /Serial\s*:\s*(\w+)/g.exec(fs.readFileSync("/proc/cpuinfo", 'utf-8'));
     return match ? match[1] : null
 }
 

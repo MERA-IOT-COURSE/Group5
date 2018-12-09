@@ -10,7 +10,8 @@ const TOPIC = {
 
 module.exports = {
     TOPIC: TOPIC,
-    BROKER_URL: "mqtt://10.42.0.10:1883",
+    //BROKER_URL: "mqtt://10.42.0.10:1883",
+    BROKER_URL: "mqtt://192.168.1.1:1883",
     HW_ID: HW_ID,
     PROTOCOL_VERSION: 1.0,
     CLIENT_NAME: 'Group 5',
@@ -42,5 +43,6 @@ module.exports = {
         REQ_SENSOR_ACTION: "REQ_SENSOR_ACTION",
         RESP_DEVICE_ACTION: "RESP_DEVICE_ACTION",
         RESP_SENSOR_ACTION: "RESP_SENSOR_ACTION"
-    }
+    },
+    BE_ADDRESS : 'http://127.0.0.1:3000'
 };
