@@ -6,6 +6,9 @@ const cors = require('cors');
 const port = 3000;
 const app = express();
 app.use(cors());
+app.use('/css', express.static(__dirname + '/view/css'));
+app.use('/js', express.static(__dirname + '/view/js'));
+app.use(express.static(__dirname + '/view/fonts'));
 
 const backend = mqtt.connect("mqtt://localhost:1883", {});
 //const backend = mqtt.connect(shared.BROKER_URL, {});
@@ -57,7 +60,7 @@ backend.on('message', (topic, message) => {
 });
 
 /*ROUTES*/
-app.get('/', (req, res) => res.sendFile('index.html', {root: __dirname}));
+app.get('/', (req, res) => res.sendFile('view/index.html', {root: __dirname}));
 app.get('/on', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED.ON, res));
 app.get('/off', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED.OFF, res));
 app.get('/temperature', (req, res) => publish(shared.SENSOR_IDS.TEMP, shared.ACTIONS.DHT.TEMP, res));

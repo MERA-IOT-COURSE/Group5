@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+
+<script type="text/javascript">
+    function setElementInnerTest(elementId, value) {
+        document.getElementById(elementId).innerText = value;
+    }
+
+    let sendGet = function (url, callback) {
+        let request = new XMLHttpRequest();
+        request.open("GET", url);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                callback.call(this, request.responseText);
+            }
+        };
+        request.send();
+    };
+
+    var sendOnRequest = () => sendGet("http://127.0.0.1:3000/on");
+    var sendOffRequest = () => sendGet("http://127.0.0.1:3000/off");
+
+    var sendTemperatureRequest =
+        () => sendGet(
+            "http://127.0.0.1:3000/temperature",
+            value => setElementInnerTest('temperature', value)
+        );
+
+    var sendHumidityRequest =
+        () => sendGet(
+            "http://127.0.0.1:3000/humidity",
+            value => setElementInnerTest('humidity', value)
+        );
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <table class="table">
+                <tbody>
+                <tr class="table-warning">
+                    <td>Led</td>
+                    <td><input type="submit" class="btn btn-success" value="On" onclick="sendOnRequest()"></td>
+                    <td><input type="submit" class="btn btn-danger" value="Off" onclick="sendOffRequest()"></td>
+                </tr>
+                <tr class="table-active">
+                    <td>Temperature</td>
+                    <td id='temperature'>0</td>
+                    <td><input type="submit" class="btn btn-success" value='Refresh' onclick="sendTemperatureRequest()">
+                    </td>
+                </tr>
+                <tr class="table-success">
+                    <td>Humidity</td>
+                    <td id='humidity'>0</td>
+                    <td><input type="submit" class="btn btn-success" value='Refresh' onclick="sendHumidityRequest()">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-success text-center">
+                        PAST CANVAS HERE
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
