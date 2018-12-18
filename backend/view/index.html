@@ -11,19 +11,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap-toggle.min.js"></script>
     <script src="js/scripts.js"></script>
-    <script src="js/requests.js"></script>
     <script src="js/plotly-latest.min.js"></script>
-    <script>
-        function initPlot() {
-            Plotly.newPlot('temperaturePlot', [
-                {
-                    x: [],
-                    y: [],
-                    type: 'scatter'
-                }
-            ], undefined, {responsive: true});
-        }
-    </script>
 </head>
 
 <body onload="initPlot()">
@@ -54,7 +42,7 @@
                         <input type="submit" class="btn btn-success" value='Refresh' onclick="sendHumidityRequest()">
                     </td>
                 </tr>
-                <tr class="table-danger">
+                <tr id="plotRow" class="table-danger">
                     <td align="left"></td>
                     <td align="center">
                         <input type="submit" class="btn btn-success" value='Draw plot' onclick="sendPlotRequest()">
