@@ -1,5 +1,4 @@
-const BE_ADDRESS = require('../../../common/constants.js');
-
+const BE_ADDRESS = 'http://127.0.0.1:3000';
 
 const URL = {
     LED_ON: BE_ADDRESS + "/on",

@@ -3,7 +3,7 @@ const shared = require('../common/constants.js');
 const REGISTER_OBJECT = require('./message.js').REGISTER_OBJECT;
 const respSensorAction = require('./message.js').respSensorAction;
 const Led = require('./Led.js').Led;
-const DHT = require('./DHT.js');
+const DHT = require('./DHT.js').DHT;
 const utils = require('./utils.js');
 
 const device = mqtt.connect(shared.BROKER_URL, {});
@@ -19,6 +19,7 @@ let actionCallbackMap = {
 };
 
 device.on('connect', () => {
+        console.log("Connected");
         device.publish(shared.TOPIC.INIT_MASTER_TOPIC, JSON.stringify(REGISTER_OBJECT));
         device.subscribe(shared.TOPIC.DEV_HW_TOPIC);
     }
@@ -33,19 +34,21 @@ device.on('message', (topic, message) => {
 
     let payload = JSON.parse(message).data;
 
-    //todo: replace with promises
-    actionCallbackMap[payload.id.id]
-        .call(this, (value => {
-                utils.now(timestamp => {
-                    let response = JSON.stringify(
-                        respSensorAction(payload.id, payload.sensorId, value, timestamp, payload.requestId)
-                    );
+    let value = undefined;
 
-                    console.log("Send response: " + response);
-                    device.publish(shared.TOPIC.BE_HW_TOPIC, response);
-                })
-            })
-        );
+    actionCallbackMap[payload.id.id].call(this)
+        .then(result => {
+            value = result;
+            return utils.now();
+        })
+        .then(timestamp => {
+            let response = JSON.stringify(
+                respSensorAction(payload.id, payload.sensorId, value, timestamp, payload.requestId)
+            );
+
+            console.log("Send response: " + response);
+            device.publish(shared.TOPIC.BE_HW_TOPIC, response);
+        });
 });
 
 device.on('error', error => console.log(error));

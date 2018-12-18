@@ -1,20 +1,17 @@
 const gpio = require("onoff").Gpio;
 
 function Led(gpioIndex) {
-    this.pin = new gpio(gpioIndex, 'out');
-    let pin = this.pin;
+    let pin = new gpio(gpioIndex, 'out');
 
-    this.on = function (callback) {
-        let ledOn = "Led " + gpioIndex + " on";
-        pin.write(gpio.HIGH, () => console.log(ledOn));
-        callback.call(this, ledOn);
+    let write = async function (voltage, value) {
+        return new Promise(resolve => {
+            pin.write(voltage, () => console.log(value));
+            resolve(value);
+        });
     };
 
-    this.off = function (callback) {
-        let ledOff = "Led " + gpioIndex + " off";
-        pin.write(gpio.LOW, () => console.log(ledOff));
-        callback.call(this, ledOff);
-    }
+    this.on = async () => write(gpio.HIGH, "Led " + gpioIndex + " on");
+    this.off = async () => write(gpio.LOW, "Led " + gpioIndex + " off");
 }
 
 module.exports = {Led: Led};
