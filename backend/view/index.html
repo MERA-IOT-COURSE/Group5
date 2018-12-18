@@ -11,44 +11,45 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap-toggle.min.js"></script>
     <script src="js/scripts.js"></script>
-    <script src="js/util.js"></script>
+    <script src="js/requests.js"></script>
 </head>
 
 <body>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
+        <div class="col-12">
             <table class="table">
                 <tbody>
                 <tr class="table-warning">
-                    <td>Led</td>
-                    <td></td>
-                    <td>
-                        <input type="checkbox" data-toggle="toggle" onchange="this.checked ? sendOnRequest() : sendOffRequest()">
+                    <td align="left">Led</td>
+                    <td align="center"></td>
+                    <td align="right">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" onchange="this.checked ? sendOnRequest() : sendOffRequest()">
                     </td>
                 </tr>
                 <tr class="table-active">
-                    <td>Temperature</td>
-                    <td id='temperature'>0</td>
-                    <td><input type="submit" class="btn btn-success" value='Refresh' onclick="sendTemperatureRequest()">
+                    <td align="left">Temperature</td>
+                    <td id='temperature' align="center">0</td>
+                    <td align="right">
+                        <input type="submit" class="btn btn-success" value='Refresh' onclick="sendTemperatureRequest()">
                     </td>
                 </tr>
                 <tr class="table-success">
-                    <td>Humidity</td>
-                    <td id='humidity'>0</td>
-                    <td><input type="submit" class="btn btn-success" value='Refresh' onclick="sendHumidityRequest()">
+                    <td align="left">Humidity</td>
+                    <td id='humidity' align="center">0</td>
+                    <td align="right">
+                        <input type="submit" class="btn btn-success" value='Refresh' onclick="sendHumidityRequest()">
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="text-success text-center">
-                        PAST CANVAS HERE
-                    </h3>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-success text-center">
+                PAST CANVAS HERE
+            </h3>
         </div>
     </div>
 </div>

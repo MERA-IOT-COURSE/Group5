@@ -43,6 +43,5 @@ module.exports = {
         REQ_SENSOR_ACTION: "REQ_SENSOR_ACTION",
         RESP_DEVICE_ACTION: "RESP_DEVICE_ACTION",
         RESP_SENSOR_ACTION: "RESP_SENSOR_ACTION"
-    },
-    BE_ADDRESS : 'http://127.0.0.1:3000'
+    }
 };

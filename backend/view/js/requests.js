@@ -1,4 +1,4 @@
-const BE_ADDRESS = 'http://127.0.0.1:3000';
+const BE_ADDRESS = "http://" + window.location.host;
 
 const URL = {
     LED_ON: BE_ADDRESS + "/on",
