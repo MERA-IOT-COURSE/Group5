@@ -12,9 +12,21 @@
     <script src="js/bootstrap-toggle.min.js"></script>
     <script src="js/scripts.js"></script>
     <script src="js/requests.js"></script>
+    <script src="js/plotly-latest.min.js"></script>
+    <script>
+        function initPlot() {
+            Plotly.newPlot('temperaturePlot', [
+                {
+                    x: [],
+                    y: [],
+                    type: 'scatter'
+                }
+            ], undefined, {responsive: true});
+        }
+    </script>
 </head>
 
-<body>
+<body onload="initPlot()">
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -24,7 +36,8 @@
                     <td align="left">Led</td>
                     <td align="center"></td>
                     <td align="right">
-                        <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" onchange="this.checked ? sendOnRequest() : sendOffRequest()">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger"
+                               onchange="this.checked ? sendOnRequest() : sendOffRequest()">
                     </td>
                 </tr>
                 <tr class="table-active">
@@ -41,17 +54,20 @@
                         <input type="submit" class="btn btn-success" value='Refresh' onclick="sendHumidityRequest()">
                     </td>
                 </tr>
+                <tr class="table-danger">
+                    <td align="left"></td>
+                    <td align="center">
+                        <input type="submit" class="btn btn-success" value='Draw plot' onclick="sendPlotRequest()">
+                    </td>
+                    <td align="right"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <h3 class="text-success text-center">
-                PAST CANVAS HERE
-            </h3>
-        </div>
-    </div>
+
+    <div id="temperaturePlot"></div>
+
 </div>
 </body>
 </html>
