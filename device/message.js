@@ -1,4 +1,5 @@
 const shared = require('../common/constants.js');
+const system = require('./system.js');
 
 function register(hwId) {
     return {
@@ -46,6 +47,6 @@ function respSensorAction(id, sensorId, value, time, requestId) {
 }
 
 module.exports = {
-    REGISTER_OBJECT: register(shared.HW_ID),
+    REGISTER_OBJECT: register(system.getHardwareId()),
     respSensorAction: respSensorAction
 };

@@ -4,7 +4,7 @@ const REGISTER_OBJECT = require('./message.js').REGISTER_OBJECT;
 const respSensorAction = require('./message.js').respSensorAction;
 const Led = require('./Led.js').Led;
 const DHT = require('./DHT.js').DHT;
-const utils = require('./utils.js');
+const utils = require('./system.js');
 
 const device = mqtt.connect(shared.BROKER_URL, {});
 
