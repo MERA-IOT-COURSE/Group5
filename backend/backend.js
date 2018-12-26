@@ -2,6 +2,7 @@ const express = require("express");
 const mqtt = require('mqtt');
 const shared = require('../common/constants.js');
 const cors = require('cors');
+const temp = require('./Temperature.js');
 
 const port = 3000;
 const app = express();
@@ -12,6 +13,13 @@ app.use(express.static(__dirname + '/view/fonts'));
 
 const backend = mqtt.connect("mqtt://localhost:1883", {});
 //const backend = mqtt.connect(shared.BROKER_URL, {});
+
+/*
+temp.store("22", new Date(1545108522261));
+temp.store("24", new Date(1545208122461));
+temp.store("21", new Date(1545301122261));
+temp.store("19", new Date(1545402122261));
+*/
 
 let requestIdSequence = 0;
 let requestResponseMap = new Map();
@@ -65,7 +73,8 @@ app.get('/on', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED.O
 app.get('/off', (req, res) => publish(shared.SENSOR_IDS.LED, shared.ACTIONS.LED.OFF, res));
 app.get('/temperature', (req, res) => publish(shared.SENSOR_IDS.TEMP, shared.ACTIONS.DHT.TEMP, res));
 app.get('/humidity', (req, res) => publish(shared.SENSOR_IDS.HUM, shared.ACTIONS.DHT.HUM, res));
-
-//todo: implement
-app.get('/plot', (req, res) => res.end());
+app.get('/plot', (req, res) => temp.findAll().then(data => {
+    res.send(JSON.stringify(data));
+    res.end();
+}));
 app.listen(port, () => console.log(`App is listening on port ${port}!`));

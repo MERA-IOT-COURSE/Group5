@@ -11,7 +11,7 @@ const TOPIC = {
 module.exports = {
     TOPIC: TOPIC,
     //BROKER_URL: "mqtt://10.42.0.10:1883",
-    BROKER_URL: "mqtt://192.168.0.108:1883",
+    BROKER_URL: "mqtt://10.42.0.114:1883",
     HW_ID: HW_ID,
     PROTOCOL_VERSION: 1.0,
     CLIENT_NAME: 'Group 5',
